@@ -3,9 +3,11 @@
 # Trim 3D Gaussian Splatting for Accurate Geometry Representation
 
 ![Teaser image](assets/teaser.jpg)
-TrimGS exhibits better geometric details and perceptual quality. In Figure (a) TrimGS separates the slender crossbars of a bench. Figure (b) showcases that TrimGS excels in rendering intricate details in both color and normals.
+More demonstrations can be found on our [project page](https://trimgs.github.io/).
 
 We are planning to release the complete code in a month. We believe this will allow us to polish our code to better serve the research community.
+
+We will integrate TrimGS into more state-of-the-art methods to demonstrate its universality in the near future. 
 
 ## Acknowledgements
 
