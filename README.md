@@ -1,7 +1,9 @@
-# Trim 3D Gaussian Splatting for Accurate Geometry Representation
+# Trim 3D Gaussian Splatting for Accurate Geometry Representation 
 
 ![Teaser image](assets/teaser.jpg)
-More demonstrations can be found on our [project page](https://trimgs.github.io/).
+
+
+More demonstrations can be found on our [project page](https://trimgs.github.io/) and [arXiv](https://arxiv.org/abs/2406.07499) paper.
 
 ## Updates
 
