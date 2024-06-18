@@ -5,7 +5,7 @@ More demonstrations can be found on our [project page](https://trimgs.github.io/
 
 ## Updates
 
-- [24-06-18] The code of Trim3DGS is released. See [Trim3DGS Instruction](Trim3DGS/README.md)
+- [24-06-18] The code of Trim3DGS is released. See [Trim3DGS Instruction](Trim3DGS/README.md).
 
 ## Usage
 

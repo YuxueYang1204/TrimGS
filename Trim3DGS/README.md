@@ -45,14 +45,14 @@ Now the data folder should look like this:
 ```bash
 data
 ├── dtu_dataset
-|   ├── DTU
-|   |   ├── scan24
-|   |   ├── ...
-|   |   └── scan122
-|   └── Official_DTU_Dataset
-|       ├── Points
-|       |   └── stl
-|       └── ObsMask
+│   ├── DTU
+│   │   ├── scan24
+│   │   ├── ...
+│   │   └── scan122
+│   └── Official_DTU_Dataset
+│       ├── Points
+│       │   └── stl
+│       └── ObsMask
 └── MipNeRF360
     ├── bicycle
     └── ...
