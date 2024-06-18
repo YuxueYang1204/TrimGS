@@ -19,7 +19,7 @@ Then follow the [Trim3DGS instruction](Trim3DGS/README.md) to install the depend
 ## Todo
 
 - [x] Release the code of Trim3DGS.
-- [ ] Release the code of Trim2DGS and unify the dependencies of Trim3DGS and Trim2DGS (in one week).
+- [ ] Release the code of Trim2DGS (in one week). Now, we are trying to make Trim3DGS and Trim2DGS compatible in a shared environment for easier use! Please stay tuned.
 - [ ] Integrate TrimGS into more methods such as [GOF](https://niujinshuchong.github.io/gaussian-opacity-fields/).
 
 ## Acknowledgements
