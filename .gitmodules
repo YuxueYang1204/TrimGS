@@ -1,0 +1,9 @@
+[submodule "Trim3DGS/SIBR_viewers"]
+	path = Trim3DGS/SIBR_viewers
+	url = https://gitlab.inria.fr/sibr/sibr_core.git
+[submodule "Trim3DGS/submodules/simple-knn"]
+	path = Trim3DGS/submodules/simple-knn
+	url = https://gitlab.inria.fr/bkerbl/simple-knn.git
+[submodule "Trim3DGS/submodules/diff-gaussian-rasterization"]
+	path = Trim3DGS/submodules/diff-gaussian-rasterization
+	url = https://github.com/Abyssaledge/diff-gaussian-rasterization.git
