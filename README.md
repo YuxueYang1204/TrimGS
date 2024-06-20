@@ -7,8 +7,8 @@ More demonstrations can be found on our [project page](https://trimgs.github.io/
 
 ## Updates
 
-- [24-06-18] The code of Trim3DGS is released.
 - [24-06-20] The code of Trim2DGS is released. **We have made Trim3DGS and Trim2DGS compatible in a shared environment for easier use!** If you have installed `trim3dgs` environment following the older instruction, please remove it and reinstall the new environment `trimgs`.
+- [24-06-18] The code of Trim3DGS is released.
 
 ## Installation
 
@@ -114,7 +114,7 @@ python print_results.py -o output/MipNeRF360_Trim2DGS --dataset mipnerf360
 
 We provide the meshes of DTU dataset from [Trim3DGS](https://drive.google.com/file/d/1R4m3cz7Be59qEVrXxyUD75UDthMx8thM/view?usp=sharing) and [Trim2DGS](https://drive.google.com/file/d/17yvj0Dh7msePLybkX_nMIIOcAs64bN54/view?usp=sharing) for evaluation.
 
-Thanks [hbb1](https://github.com/hbb1) for his kind suggestion on Trim2DGS in https://github.com/YuxueYang1204/TrimGS/issues/1, resulting in a better performance.
+Thank [hbb1](https://github.com/hbb1) for his kind suggestion on Trim2DGS in https://github.com/YuxueYang1204/TrimGS/issues/1, resulting in a better performance.
 
 <details>
 <summary><span style="font-weight: bold;">Table Results</span></summary>
