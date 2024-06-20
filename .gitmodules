@@ -7,3 +7,9 @@
 [submodule "Trim3DGS/submodules/diff-gaussian-rasterization"]
 	path = Trim3DGS/submodules/diff-gaussian-rasterization
 	url = https://github.com/Abyssaledge/diff-gaussian-rasterization.git
+[submodule "Trim2DGS/submodules/diff-surfel-rasterization"]
+	path = Trim2DGS/submodules/diff-surfel-rasterization
+	url = https://github.com/YuxueYang1204/diff-surfel-rasterization.git
+[submodule "Trim2DGS/submodules/simple-knn"]
+	path = Trim2DGS/submodules/simple-knn
+	url = https://gitlab.inria.fr/bkerbl/simple-knn.git

@@ -1,9 +1,14 @@
 *.pyc
 .vscode
-output/
-build/
-tensorboard_3d
-screenshots
+output
+build
 data
-*.png
 *.ply
+**/PKG-INFO
+# submodules
+**__pycache__**
+*.png
+*.out
+eval
+*.npz
+**/tmp

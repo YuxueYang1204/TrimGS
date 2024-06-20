@@ -1,0 +1,33 @@
+name: trimgs
+channels:
+  - pytorch3d
+  - pytorch
+  - nvidia
+  - conda-forge
+  - pyg
+  - defaults
+dependencies:
+  - setuptools==69.0.3
+  - ffmpeg=4.2.2
+  - pillow=10.2.0
+  - pip=23.3.1
+  - python=3.8.18
+  - pytorch=2.1.0
+  - pytorch3d=0.7.5
+  - pytorch-scatter
+  - torchvision=0.16.0
+  - typing_extensions=4.9.0
+  - pip:
+    - open3d==0.18.0
+    - mediapy==1.1.2
+    - lpips==0.1.4
+    - scikit-image==0.21.0
+    - tqdm==4.66.2
+    - trimesh==4.3.2
+    - Trim3DGS/submodules/diff-gaussian-rasterization
+    - Trim3DGS/submodules/simple-knn
+    - Trim2DGS/submodules/diff-surfel-rasterization
+    # the submodule simple-knn in Trim2DGS is the same as the one in Trim3DGS
+    # - Trim2DGS/submodules/simple-knn
+    - plyfile
+    - opencv-python
