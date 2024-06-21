@@ -18,7 +18,6 @@ from utils.loss_utils import l1_loss, ssim
 from gaussian_renderer import render, network_gui
 import sys
 from scene import Scene, GaussianModel, FlattenGaussianModel
-from scene.density import culling
 from utils.general_utils import safe_state
 from utils.graphics_utils import fov2focal
 import uuid
@@ -39,13 +38,34 @@ from torchvision.utils import save_image
 
 import time
 
-# try:
-#     import debugpy
-#     debugpy.listen(5678)
-#     print("Waiting for debugger attach")
-#     debugpy.wait_for_client()
-# except:
-#     pass
+def culling(xyz, cams, expansion=2):
+    cam_centers = torch.stack([c.camera_center for c in cams], 0).to(xyz.device)
+    span_x = cam_centers[:, 0].max() - cam_centers[:, 0].min()
+    span_y = cam_centers[:, 1].max() - cam_centers[:, 1].min() # smallest span
+    span_z = cam_centers[:, 2].max() - cam_centers[:, 2].min()
+
+    scene_center = cam_centers.mean(0)
+
+    span_x = span_x * expansion
+    span_y = span_y * expansion
+    span_z = span_z * expansion
+
+    x_min = scene_center[0] - span_x / 2
+    x_max = scene_center[0] + span_x / 2
+
+    y_min = scene_center[1] - span_y / 2
+    y_max = scene_center[1] + span_y / 2
+
+    z_min = scene_center[2] - span_x / 2
+    z_max = scene_center[2] + span_x / 2
+
+
+    valid_mask = (xyz[:, 0] > x_min) & (xyz[:, 0] < x_max) & \
+                 (xyz[:, 1] > y_min) & (xyz[:, 1] < y_max) & \
+                 (xyz[:, 2] > z_min) & (xyz[:, 2] < z_max)
+    # print(f'scene mask ratio {valid_mask.sum().item() / valid_mask.shape[0]}')
+
+    return valid_mask, scene_center
 
 def prune_low_contribution_gaussians(gaussians, cameras, pipe, bg, K=5, prune_ratio=0.1):
     top_list = [None, ] * K
