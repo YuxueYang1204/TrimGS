@@ -1,5 +1,6 @@
 import bpy
 import json
+import uuid
 import os, shutil
 import numpy as np
 from argparse import ArgumentParser
@@ -11,18 +12,22 @@ from generate_video import generate_video
 
 parser = ArgumentParser(description='bpy arg parser')
 parser.add_argument("--cuda_id", type=int, default=0)
-parser.add_argument("--load_dir", type=str, default='data/mesh_data/dtu/scan24')
+parser.add_argument("--load_dir", type=str, default='data/mesh_data/mesh_dtu/scan24')
 parser.add_argument("--config_dir", type=str, default='render_cfgs/dtu')
-parser.add_argument("--save_dir", type=str, default='render_res')
+parser.add_argument("--save_dir", type=str, default='')
 parser.add_argument("--is_texture", action='store_true')
 parser.add_argument("--image_only", action='store_true')
 
-parser.add_argument('--debug_mode', type=int, default=-1)
+parser.add_argument('--debug_mode', type=int, default=-1, help='How many images to render (in debug mode). -1 means all images (not in debug mode).')
 parser.add_argument('--debug_video_step', type=int, default=1)
 parser.add_argument('--write_cover', action='store_true')
 parser.add_argument("--fps", type=int, default=60)
 parser.add_argument('--fov_scale', type=float, default=1.0)
 args = parser.parse_args()
+
+if args.save_dir == '':
+    unique_str = str(uuid.uuid4())
+    args.save_dir = os.path.join("./output/", unique_str[0:10])
 
 # load config files
 cfg_dir = args.config_dir
@@ -125,4 +130,4 @@ bpy.ops.outliner.orphans_purge(do_recursive=True)
 
 # generate_video
 if not args.image_only:
-    generate_video(path=save_dir, is_texture=args.is_texture, fps=args.fps)
+    generate_video(path=save_dir, fps=args.fps)

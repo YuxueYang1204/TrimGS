@@ -4,6 +4,7 @@
 
 ```bash
 cd blender
+# python 3.11 is necessary for blender 4.1 on which our scripts based
 conda create -n blender python=3.11 -y 
 conda activate blender
 pip install bpy==4.1
@@ -19,81 +20,38 @@ To render a video for a targeted mesh `mesh.ply`, please pack the intrinsics and
     "image_width",
     "world_view_transform" and
     "FoVx",
-and dump them into pickle files naming `XXXXX.pkl`. Then organize the data, making the `blender/data` folder look as follows:
-```
+and dump them into pickle files naming `f{camera_index}.pkl`. Then organize the data, making the folder look as follows:
+
 ```bash
-data/mesh_data
-        ├── mesh_dtu
-        │   ├── scan24
-        |   |   ├── mesh.ply
-        |   |   └── traj
-        |   |       ├── 00000.pkl
-        |   |       └── ...
-        |   ├── ...
-        │   └── scan122
-        └── mesh_mip
-            ├── bicycle
-            ├── ...
+data_path
+        ├── mesh.ply
+        └── traj
+            ├── 00000.pkl
+            ├── 00001.pkl
             └── ...
 ```
 
-After that, simply run
 ```bash
-python generate_traj_batch.py
+python render.py --load_dir <path to the mesh and trajectory data> --config_dir <path of the render config>
 ```
-to extract the camera parameters. Now the data folder should look like this:
+### Command Line Arguments for render.py
 
-```bash
-data
-├── mesh_data
-|   ├── mesh_dtu
-|   └── mesh_mip
-└── cam_pose
-    ├── mesh_dtu
-    └── mesh_mip
-```
-
-## Rendering all scenes
-
-### Rendering
-
-With data prepared, run
-```bash
-python mesh.py --mesh_type mesh_dtu
-python mesh.py --mesh_type mesh_mip
-```
-to render images of all (**vanilla**) meshes on their corresponding trajectories, with results saved in the folder `render_res`. Images of **textured** meshes can be got via 
-```bash
-python mesh.py --mesh_type mesh_dtu --is_texture
-python mesh.py --mesh_type mesh_mip --is_texture
-```
+#### --load_dir 
+Path to the mesh and trajectory data (`data_path` in the above section).
+#### --save_dir 
+Path where the rendered images and video should be stored (```output/<random>``` by default).
+#### --config_dir
+Path where the render config file is stored. Set `render_cfgs/dtu` for `DTU` and `render_cfgs/mip` for `mip`.
 
 ### Video Generation
 With images rendered, run
 ```bash
-python generate_video.py
+python generate_video.py --load_dir <path to the rendered images>
 ```
 to concatenate all of them into desired videos.
 
 ## Useful Command Line Arguments
 
-### Rendering some scenes
-
-If you want to render only **some** scenes, you can specify them by adding command line arguments. For example, run 
-```bash
-python mesh.py --mesh_type mesh_dtu --mesh_list scan24 scan40
-```
-to generate images for `scan24` and `scan40` of `DTU` only.
-
-### Protection of Conflicts
-By default, `mesh.py` refuses to re-generate images if the path where the rendered images should be stored already exists. Set `--write_cover` to cover previous results forcibly. 
-
-To avoid the conflict stated above, set `--save_root_dir` in `mesh.py` to save the rendered images in a specific path. Consequently, change `--load_dir` in `generate_video.py` to generate video from that path. For example, run
-```bash
-python mesh.py --mesh_type mesh_dtu --is_texture --save_root_dir=render_res_test
-python generate_video.py --load_dir=render_res_test
-```
-
 ### Debug Mode
 
-You can specify command line arguments `--debug_mode` and `--debug_video_step` in `mesh.py` to render some images of a scene only, for quickly debugging. 
+You can specify command line arguments `--debug_mode` and `--debug_video_step` in `render.py` to render some images of a scene only, for quickly debugging. 
