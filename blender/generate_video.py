@@ -33,4 +33,4 @@ if __name__ == "__main__":
     parser.add_argument("--is_texture", action="store_true")
     parser.add_argument("--fps", type=int, default=60)
     args = parser.parse_args()
-    generate_video(path=args.load_dir, is_texture=args.is_texture, fps=args.fps)
+    generate_video(path=args.load_dir, fps=args.fps)
