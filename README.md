@@ -7,6 +7,7 @@ More demonstrations can be found on our [project page](https://trimgs.github.io/
 
 ## Updates
 
+- [24-06-25] We release the demo video rendering [scripts](https://github.com/YuxueYang1204/TrimGS/tree/main/blender) with Blender to show the mesh.
 - [24-06-20] The code of Trim2DGS is released. **We have made Trim3DGS and Trim2DGS compatible in a shared environment for easier use!** If you have installed `trim3dgs` environment following the older instruction, please remove it and reinstall the new environment `trimgs`.
 - [24-06-18] The code of Trim3DGS is released.
 
