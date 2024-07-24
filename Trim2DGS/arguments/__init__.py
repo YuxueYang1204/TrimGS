@@ -109,6 +109,7 @@ class FinetuneParams(ParamGroup):
         self.lambda_dist = 100.0
         self.lambda_normal = 0.05
         self.opacity_cull = 0.005
+        self.max_screen_size = 20
 
         self.depth_grad_thresh = 0.03
         self.depth_grad_mask_dilation = 1

@@ -7,6 +7,7 @@ More demonstrations can be found on our [project page](https://trimgs.github.io/
 
 ## Updates
 
+- [24-07-24] Trim2DGS is updated to support TnT dataset.
 - [24-06-25] We release the demo video rendering [scripts](https://github.com/YuxueYang1204/TrimGS/tree/main/blender) with Blender to show the mesh.
 - [24-06-20] The code of Trim2DGS is released. **We have made Trim3DGS and Trim2DGS compatible in a shared environment for easier use!** If you have installed `trim3dgs` environment following the older instruction, please remove it and reinstall the new environment `trimgs`.
 - [24-06-18] The code of Trim3DGS is released.
@@ -45,12 +46,31 @@ mv SampleSet/MVS\ Data dtu_dataset/Official_DTU_Dataset
 ### MipNeRF360
 
 For novel view synthesis on MipNeRF360, please download the `360_v2.zip` and `360_extra_scenes.zip` from [MipNeRF360](https://jonbarron.info/mipnerf360/).
+
 ```bash
 cd data
 mkdir MipNeRF360
-# prepare the MipNeRF360 dataset
 unzip 360_v2.zip -d MipNeRF360
 unzip 360_extra_scenes.zip -d MipNeRF360
+```
+
+### TnT
+
+For geometry reconstruction on TnT dataset, please download the preprocessed [TnT_data](https://huggingface.co/datasets/ZehaoYu/gaussian-opacity-fields/tree/main). You also need to download the ground truth [Results on training set](https://drive.google.com/file/d/1jAr3IDvhVmmYeDWi0D_JfgiHcl70rzVE/view?usp=sharing&resourcekey=).
+
+```bash
+cd data
+unzip TNT_GOF.zip
+unzip trainingdata.zip -d TNT_GOF/ground_truth
+```
+
+Due to the requirement conflict of `open3d`, we need to create a new environment for TnT evaluation:
+
+```bash
+conda create -n tnt_eval python=3.8 -y
+conda activate tnt_eval
+pip install open3d==0.10
+pip install trimesh
 ```
 
 Now the data folder should look like this:
@@ -66,9 +86,16 @@ data
 │       ├── Points
 │       │   └── stl
 │       └── ObsMask
-└── MipNeRF360
-    ├── bicycle
-    └── ...
+├── MipNeRF360
+│   ├── bicycle
+│   └── ...
+└── TNT_GOF
+    ├── ground_truth
+    │   ├── Barn
+    │   └── ...
+    └── TrainingSet
+        ├── Barn
+        └── ...
 ```
 
 Then link the data folder to the Trim3DGS and Trim2DGS:
@@ -111,7 +138,16 @@ python print_results.py -o output/DTU_Trim2DGS --dataset dtu
 python scripts/run_Mipnerf360.py
 # print the evaluation results
 python print_results.py -o output/MipNeRF360_Trim2DGS --dataset mipnerf360
+
+# TnT
+python scripts/run_TNT.py
+# evaluate the results
+conda activate tnt_eval
+python scripts/eval_TNT.py
+python print_results.py -o output/TNT_Trim2DGS --dataset tnt
 ```
+
+---
 
 We provide the meshes of DTU dataset from [Trim3DGS](https://drive.google.com/file/d/1R4m3cz7Be59qEVrXxyUD75UDthMx8thM/view?usp=sharing) and [Trim2DGS](https://drive.google.com/file/d/17yvj0Dh7msePLybkX_nMIIOcAs64bN54/view?usp=sharing) for evaluation.
 
@@ -130,13 +166,46 @@ Chamfer distance on DTU dataset (lower is better)
 | Trim2DGS (Reproduce) | 0.45 | 0.72 | 0.33 | 0.40 | 0.97 | 0.72 | 0.73 | 1.21 | 1.14 | 0.61 | 0.67 | 1.01 | 0.41 | 0.60 | 0.44 | 0.69 |
 </details>
 
+
+We provide geometry evaluation results of Trim2DGS on TnT dataset test-set.
+
+<details>
+<summary><span style="font-weight: bold;">Table Results</span></summary>
+
+F1 scores on TnT dataset (higher is better)
+
+|   | Barn | Caterpillar | Ignatius | Truck | Meetingroom | Courthouse | Mean |
+|----------|------|------|------|------|------|------|------|
+| 2DGS | 0.30 | 0.25 | 0.54 | 0.50 | 0.19 | 0.13 | 0.32 |
+| Trim2DGS | 0.31 | 0.30 | 0.61 | 0.56 | 0.20 | 0.18 | 0.36 |
+
+</details>
+
 ## Todo
 
 - [x] Release the code of Trim3DGS.
 - [x] Release the code of Trim2DGS.
-- [ ] Release scripts for making demo videos.
+- [x] Release scripts for making demo videos.
+- [x] Support TnT dataset.
 - [ ] Integrate TrimGS into more methods such as [GOF](https://niujinshuchong.github.io/gaussian-opacity-fields/).
 
 ## Acknowledgements
 
 We sincerely thank the authors of the great works [3D Gaussian Splatting](https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/) and [2D Gaussian Splatting](https://surfsplatting.github.io/). Our Trim3DGS and Trim2DGS are built upon these foundations.
+
+The running scripts are adapted from [GOF](https://niujinshuchong.github.io/gaussian-opacity-fields/) and the evaluation scripts for DTU and Tanks and Temples dataset are taken from [DTUeval-python](https://github.com/jzhangbs/DTUeval-python) and [TanksAndTemples](https://github.com/isl-org/TanksAndTemples/tree/master/python_toolbox/evaluation) respectively.
+
+We thank all the authors for their great work and repos.
+
+## Citation
+
+Please consider citing our work as follows if it is helpful.
+
+```bibtex
+@article{fan2024trim,
+  author    = {Fan, Lue and Yang, Yuxue and Li, Minxing and Li, Hongsheng and Zhang, Zhaoxiang},
+  title     = {Trim 3D Gaussian Splatting for Accurate Geometry Representation},
+  journal   = {arXiv preprint arXiv:2406.07499},
+  year      = {2024},
+}
+```

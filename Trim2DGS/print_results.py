@@ -87,17 +87,56 @@ def report_mipnerf360(path, iteration):
     for k, v in sum_overall_indoor.items():
         print(f"{k}: {v / n_indoor:.3f}")
 
+def report_tnt(path, iteration):
+    print(f'Results of {path}')
+    scans = os.listdir(path)
+
+    sum_overall = 0
+    n = 0
+    print("***************** mesh *****************")
+    for scan in sorted(scans):
+        p = os.path.join(path, scan, f'train/ours_{iteration}/evaluation/results.json')
+        if not os.path.exists(p):
+            continue
+        with open(p, 'r') as f:
+            data = json.load(f)
+            print(scan, f"f-score: {data['f-score']:.2f}", scan)
+        sum_overall += data['f-score']
+        n += 1
+
+    print(f"Overall f-score: {sum_overall / n:.2f}")
+
+    sum_overall = dict()
+    n = 0
+    print("***************** render *****************")
+    for scan in sorted(scans):
+        p = os.path.join(path, scan, "results.json")
+        if not os.path.exists(p):
+            continue
+        with open(p, 'r') as f:
+            data = json.load(f)
+            print(scan, data, scan)
+        for k, v in data[f'ours_{iteration}'].items():
+            if k not in sum_overall:
+                sum_overall[k] = 0.0
+            sum_overall[k] += v
+        n += 1
+    print("Mean")
+    for k, v in sum_overall.items():
+        print(f"{k}: {v / n:.3f}")
 
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--output_path', '-o', type=str)
     parser.add_argument('--iteration', type=int, default=7000)
-    parser.add_argument('--dataset', type=str, choices=['dtu', 'mipnerf360'])
+    parser.add_argument('--dataset', type=str, choices=['dtu', 'mipnerf360', 'tnt'])
     args = parser.parse_args()
 
     if args.dataset == 'dtu':
         report_dtu(args.output_path, args.iteration)
     elif args.dataset == 'mipnerf360':
         report_mipnerf360(args.output_path, args.iteration)
+    elif args.dataset == 'tnt':
+        report_tnt(args.output_path, args.iteration)
     else:
         raise ValueError(f"Unknown dataset {args.dataset}")

@@ -213,23 +213,16 @@ def training(dataset, opt, pipe, testing_iterations, saving_iterations, checkpoi
 
                 if iteration > opt.densify_from_iter and iteration % opt.densification_interval == 0:
                     if split == "ordinary":
-                        gaussians.densify_and_prune(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, max_screen_size=20)
+                        gaussians.densify_and_prune(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, max_screen_size=opt.max_screen_size)
 
                     elif split == "scale":
                         scene_mask, scene_center = culling(gaussians.get_xyz, scene.getTrainCameras())
-                        gaussians.densify_and_scale_split(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, 100, opt.densify_scale_factor, scene_mask, N=3, no_grad=True)
+                        gaussians.densify_and_scale_split(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, opt.max_screen_size, opt.densify_scale_factor, scene_mask, N=3, no_grad=True)
 
                     elif split == "mix":
-                        size_threshold = 20
-                        gaussians.densify_and_prune(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, size_threshold)
+                        gaussians.densify_and_prune(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, opt.max_screen_size)
                         scene_mask, scene_center = culling(gaussians.get_xyz, scene.getTrainCameras())
-                        gaussians.densify_and_scale_split(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, 100, opt.densify_scale_factor, scene_mask, N=3, no_grad=True)
-                        prune_mask = (gaussians.get_opacity < opt.opacity_cull).squeeze()
-                        if size_threshold:
-                            big_points_vs = gaussians.max_radii2D > size_threshold
-                            big_points_ws = gaussians.get_scaling.max(dim=1).values > 0.1 * scene.cameras_extent
-                            prune_mask = torch.logical_or(torch.logical_or(prune_mask, big_points_vs), big_points_ws)
-                        gaussians.prune_points(prune_mask)
+                        gaussians.densify_and_scale_split(opt.densify_grad_threshold, opt.opacity_cull, scene.cameras_extent, opt.max_screen_size, opt.densify_scale_factor, scene_mask, N=3, no_grad=True)
 
                     elif split == "none":
                         pass
