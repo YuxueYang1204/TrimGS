@@ -7,6 +7,7 @@ More demonstrations can be found on our [project page](https://trimgs.github.io/
 
 ## Updates
 
+- [24-08-06] We support training Trim2DGS from scratch. The performances on DTU and MipNeRF360 are all improved compared to the results in the paper.
 - [24-07-24] Trim2DGS is updated to support TnT dataset.
 - [24-06-25] We release the demo video rendering [scripts](https://github.com/YuxueYang1204/TrimGS/tree/main/blender) with Blender to show the mesh.
 - [24-06-20] The code of Trim2DGS is released. **We have made Trim3DGS and Trim2DGS compatible in a shared environment for easier use!** If you have installed `trim3dgs` environment following the older instruction, please remove it and reinstall the new environment `trimgs`.
@@ -128,14 +129,20 @@ python print_results.py -o output/MipNeRF360_Trim3DGS --dataset mipnerf360
 
 ```bash
 cd Trim2DGS
-# train DTU dataset
+# DTU dataset
+# train 2DGS 30K and finetune Trim2DGS 7K
 python scripts/run_dtu.py
+# or you can train Trim2DGS from scratch
+python Trim2DGS/scripts/train_from_scratch/run_dtu.py
 # print the evaluation results
 python print_results.py -o output/DTU_Trim2DGS --dataset dtu
 # the extracted mesh of DTU dataset can be found in `output/DTU_Trim2DGS/scan${scene_id}/train/ours_7000/fuse_post.ply`
 
 # MiNeRF360
+# train 2DGS 30K and finetune Trim2DGS 7K
 python scripts/run_Mipnerf360.py
+# or you can train Trim2DGS from scratch
+python Trim2DGS/scripts/train_from_scratch/run_Mipnerf360.py
 # print the evaluation results
 python print_results.py -o output/MipNeRF360_Trim2DGS --dataset mipnerf360
 
